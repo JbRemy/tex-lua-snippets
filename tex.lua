@@ -175,7 +175,7 @@ return {
     {trig="shlist", dscr="Expands into an subhlist"},
     fmta(
       [[
-        \begin{hlist}[label=\alplha{hlistii}]<>
+        \begin{hlist}[label=\alpha{hlistii}]<>
           \setcounter{hlistii}{0}
           \hitem <>
         \end{hlist}
@@ -711,6 +711,14 @@ return {
     ),
     {condition = tex_utils.in_mathzone}
   ),
+  s(
+    {trig="pcos", dscr="cosinus exponsant", snippetType="autosnippet"},
+    fmta(
+      "\\cos^{<>}(<>)",
+      {i(1),i(2)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
 
   s(
     {trig="exp", dscr="exponentielle", snippetType="autosnippet"},
@@ -740,6 +748,14 @@ return {
     {condition = tex_utils.in_mathzone}
   ),
 
+  s(
+    {trig="psin", dscr="sin exposant", snippetType="autosnippet"},
+    fmta(
+      "\\sin^{<>}(<>)",
+      {i(1),i(2)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
   s(
     {trig="tan", dscr="tan", snippetType="autosnippet"},
     fmta(
