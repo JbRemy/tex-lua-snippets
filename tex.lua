@@ -321,7 +321,7 @@ return {
   ),
 
   s({trig = "brks", snippetType="autosnippet", dscr = "expands into a brakets"},
-  fmta("\\{<>\\}",
+  fmta("\\[<>\\]",
     {
       d(1, get_visual),
     }
@@ -329,6 +329,23 @@ return {
   ),
 
   s({trig = "lbrks", snippetType="autosnippet", dscr = "expands into a brakets"},
+  fmta("\\left\\[<>\\right\\]",
+    {
+      d(1, get_visual),
+    }
+  ),
+    {condition = tex_utils.in_mathzone}
+  ),
+
+  s({trig = "brcs", snippetType="autosnippet", dscr = "expands into a brakets"},
+  fmta("\\{<>\\}",
+    {
+      d(1, get_visual),
+    }
+  )
+  ),
+
+  s({trig = "lbrcs", snippetType="autosnippet", dscr = "expands into a brakets"},
   fmta("\\left\\{<>\\right\\}",
     {
       d(1, get_visual),
@@ -375,6 +392,16 @@ return {
     fmta(
       "\\norml{<>}",
       {i(1)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
+    {trig="([^%a])congru", regTrig=true, wordTrig=false, dscr="Congruence", snippetType="autosnippet"},
+    fmta(
+      "<>\\equiv ",
+      {
+        f( function(_, snip) return snip.captures[1] end )
+      }
     ),
     {condition = tex_utils.in_mathzone}
   ),
@@ -481,6 +508,39 @@ return {
     fmta(
       "\\int_{<>}^{<>}",
       {i(1),i(2)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+
+  s(
+    {trig="([^%a])ocint", regTrig=true, wordTrig=false, dscr="Intervalle ouvert fermé", snippetType="autosnippet"},
+    fmta(
+      "<>\\left]<>;<>\\right]",
+      {f( function(_, snip) return snip.captures[1] end ), i(1),i(2)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
+    {trig="([^%a])coint", regTrig=true, wordTrig=false, dscr="Intervalle fermé ouvert", snippetType="autosnippet"},
+    fmta(
+      "<>\\left[<>;<>\\right[",
+      {f( function(_, snip) return snip.captures[1] end ), i(1),i(2)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
+    {trig="([^%a])ooint", regTrig=true, wordTrig=false, dscr="Intervalle ouvert", snippetType="autosnippet"},
+    fmta(
+      "<>\\left]<>;<>\\right[",
+      {f( function(_, snip) return snip.captures[1] end ), i(1),i(2)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
+    {trig="([^%a])ccint", regTrig=true, wordTrig=false, dscr="Intervalle fermé", snippetType="autosnippet"},
+    fmta(
+      "<>\\left[<>;<>\\right]",
+      {f( function(_, snip) return snip.captures[1] end ), i(1),i(2)}
     ),
     {condition = tex_utils.in_mathzone}
   ),
@@ -636,6 +696,14 @@ return {
   -- Fonctions
   --
   s(
+    {trig="atan", dscr="tan", snippetType="autosnippet"},
+    fmta(
+      "\\arctan(<>)",
+      {i(1)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
     {trig="cos", dscr="cosinus", snippetType="autosnippet"},
     fmta(
       "\\cos(<>)",
@@ -672,6 +740,14 @@ return {
     {condition = tex_utils.in_mathzone}
   ),
 
+  s(
+    {trig="tan", dscr="tan", snippetType="autosnippet"},
+    fmta(
+      "\\tan(<>)",
+      {i(1)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
 
 
 
@@ -893,6 +969,17 @@ return {
     {condition = tex_utils.in_mathzone}
   ),
 
+  s(
+    {trig="([^%a])theta", regTrig=true, wordTrig=false, dscr="theta", snippetType="autosnippet"},
+    fmta(
+      "<>\\theta",
+      {
+        f( function(_, snip) return snip.captures[1] end ),
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+
   -------------------------------------------------------------------------------
   -- Mathfonts
   --
@@ -928,14 +1015,15 @@ return {
         \begin{axis}[axis lines=middle,
           xmin=<>, xmax=<>,
           ymin=<>, ymax=<>, ticks=none ,
-          trig format plots=rad]
+          trig format plots=rad,
+          restrict y to domain=<>:<>]
 
           \addplot[thick, smooth, samples=1000, domain=<>:<>]
                 {<>} ;
         \end{axis}
       \end{tikzpicture}
       ]],
-      {i(1), i(2), i(3), i(4), rep(1), rep(2), i(5, "f(x)")}
+      {i(1), i(2), i(3), i(4), rep(3),rep(4),rep(1), rep(2), i(5, "f(x)")}
     )
   ),
 
