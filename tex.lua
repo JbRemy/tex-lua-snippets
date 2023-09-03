@@ -984,6 +984,27 @@ return {
     ),
     {condition = tex_utils.in_mathzone}
   ),
+  
+  s(
+    {trig="([^%a])phi", regTrig=true, wordTrig=false, dscr="phi", snippetType="autosnippet"},
+    fmta(
+      "<>\\phi",
+      {
+        f( function(_, snip) return snip.captures[1] end ),
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
+    {trig="([^%a])vphi", regTrig=true, wordTrig=false, dscr="varphi", snippetType="autosnippet"},
+    fmta(
+      "<>\\varphi",
+      {
+        f( function(_, snip) return snip.captures[1] end ),
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
 
   s(
     {trig="([^%a])theta", regTrig=true, wordTrig=false, dscr="theta", snippetType="autosnippet"},
