@@ -396,6 +396,19 @@ return {
     {condition = tex_utils.in_mathzone}
   ),
   s(
+    {trig="([^%a])binom", regTrig=true, wordTrig=false, dscr="Coeff binomiaux", snippetType="autosnippet"},
+    fmta(
+      "<>\\binom{<>}{<>} ",
+      {
+        f( function(_, snip) return snip.captures[1] end ),
+        i(1),
+        i(2)
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+
+  s(
     {trig="([^%a])congru", regTrig=true, wordTrig=false, dscr="Congruence", snippetType="autosnippet"},
     fmta(
       "<>\\equiv ",
@@ -513,6 +526,14 @@ return {
   ),
 
   s(
+    {trig="([^%a])nint", regTrig=true, wordTrig=false, dscr="Intervalle entier", snippetType="autosnippet"},
+    fmta(
+      "<>\\left\\llbracket<>;<>\\right\\rrbracket",
+      {f( function(_, snip) return snip.captures[1] end ), i(1),i(2)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
     {trig="([^%a])ocint", regTrig=true, wordTrig=false, dscr="Intervalle ouvert fermé", snippetType="autosnippet"},
     fmta(
       "<>\\left]<>;<>\\right]",
@@ -607,6 +628,14 @@ return {
     {condition = tex_utils.in_mathzone}
   ),
 
+  s(
+    {trig="Prod", dscr="Produit de termes", snippetType="autosnippet"},
+    fmta(
+      "\\prod_{<>}^{<>}",
+      {i(1),i(2)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
 
   s(
     {trig="([^%a])qq", wordTrig=false, regTrig=true, snippetType="autosnippet"
@@ -771,6 +800,27 @@ return {
   ----------------------------------------------------------
   -- Ensembles
   --
+  s(
+    {trig="([^%a])CC", regTrig=true, wordTrig=false, dscr="Complex numbers", snippetType="autosnippet"},
+    fmta(
+      "<>\\C",
+      {
+        f( function(_, snip) return snip.captures[1] end )
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
+    {trig="([^%a])Mn", regTrig=true, wordTrig=false, dscr="Matrices", snippetType="autosnippet"},
+    fmta(
+      "<>\\Mn[<>]{<>}",
+      {
+        f( function(_, snip) return snip.captures[1] end ),
+      i(1),i(2)
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
   s(
     {trig="([^%a])RR", regTrig=true, wordTrig=false, dscr="Real numbers", snippetType="autosnippet"},
     fmta(
@@ -978,6 +1028,16 @@ return {
     {trig="([^%a])Gamma", regTrig=true, wordTrig=false, dscr="Gamma", snippetType="autosnippet"},
     fmta(
       "<>\\Gamma",
+      {
+        f( function(_, snip) return snip.captures[1] end ),
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
+    {trig="([^%a])omega", regTrig=true, wordTrig=false, dscr="omega", snippetType="autosnippet"},
+    fmta(
+      "<>\\omega",
       {
         f( function(_, snip) return snip.captures[1] end ),
       }
