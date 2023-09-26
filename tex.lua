@@ -55,7 +55,7 @@ return {
   --------------------------------------------------------------
   -- text formating
   --
-  s({trig = "([^%a])tit", wordTrig=false, regTrig=true, dscr = "Expands 'tit' into LaTeX's textit{} command.", snippetType="autosnippet"},
+  s({trig = "([%s])tit", wordTrig=false, regTrig=true, dscr = "Expands 'tit' into LaTeX's textit{} command.", snippetType="autosnippet"},
   fmta("<>\\textit{<>}",
     {
       f( function(_, snip) return snip.captures[1] end ),
@@ -357,6 +357,36 @@ return {
   --------------------------------------------------------------
   -- Maths
   --
+  -- Fonts 
+
+  s(
+    {trig="trm", dscr="textrm", snippetType="autosnippet"},
+    fmta(
+      "\\textrm{ <> } ",
+      {i(1)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
+    {trig="mcal", dscr="mathcal", snippetType="autosnippet"},
+    fmta(
+      "\\mathcal{ <> } ",
+      {i(1)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+
+  s(
+    {trig="mscr", dscr="mathscr", snippetType="autosnippet"},
+    fmta(
+      "\\mathscr{<>}",
+      {i(1)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+
+  
+  --
   -- Enter math mode
   s({trig = "([^%a])mm", wordTrig = false, regTrig = true,
     snippetType="autosnippet"},
@@ -379,15 +409,6 @@ return {
     )
   ),
   s(
-    {trig="trm", dscr="textrm", snippetType="autosnippet"},
-    fmta(
-      "\\textrm{ <> } ",
-      {i(1)}
-    ),
-    {condition = tex_utils.in_mathzone}
-  ),
-
-  s(
     {trig="abs", dscr="Valeur absolue", snippetType="autosnippet"},
     fmta(
       "\\norml{<>}",
@@ -409,6 +430,36 @@ return {
   ),
 
   s(
+    {trig="([^%a])cap", regTrig=true, wordTrig=false, dscr="Intersection", snippetType="autosnippet"},
+    fmta(
+      "<>\\cap ",
+      {
+        f( function(_, snip) return snip.captures[1] end )
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
+    {trig="([^%a])cup", regTrig=true, wordTrig=false, dscr="Union", snippetType="autosnippet"},
+    fmta(
+      "<>\\cup ",
+      {
+        f( function(_, snip) return snip.captures[1] end )
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
+    {trig="([^%a])sqcup", regTrig=true, wordTrig=false, dscr="Union disjointe", snippetType="autosnippet"},
+    fmta(
+      "<>\\sqcup ",
+      {
+        f( function(_, snip) return snip.captures[1] end )
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
     {trig="([^%a])congru", regTrig=true, wordTrig=false, dscr="Congruence", snippetType="autosnippet"},
     fmta(
       "<>\\equiv ",
@@ -423,6 +474,17 @@ return {
     {trig="([^%a])equiv", regTrig=true, wordTrig=false, dscr="Equivalence", snippetType="autosnippet"},
     fmta(
       "<>\\Leftrightarrow ",
+      {
+        f( function(_, snip) return snip.captures[1] end )
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  
+  s(
+    {trig="([^%a])empty", regTrig=true, wordTrig=false, dscr="Ensemble vide", snippetType="autosnippet"},
+    fmta(
+      "<>\\emptyset ",
       {
         f( function(_, snip) return snip.captures[1] end )
       }
@@ -476,6 +538,15 @@ return {
     {condition = tex_utils.in_mathzone}
   ),
 
+  s(
+    {trig="floor", dscr="Partie entiere", snippetType="autosnippet"},
+    fmta(
+      "\\floor{<>}",
+      {i(1)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  
   s(
     {trig="sff", dscr="inline fractions", snippetType="autosnippet"},
     fmta(
@@ -565,6 +636,22 @@ return {
     ),
     {condition = tex_utils.in_mathzone}
   ),
+  s(
+    {trig="([^%a])Image", regTrig=true, wordTrig=false, dscr="Image", snippetType="autosnippet"},
+    fmta(
+      "<>\\Image(<>)",
+      {f( function(_, snip) return snip.captures[1] end ), i(1)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
+    {trig="([^%a])Ker", regTrig=true, wordTrig=false, dscr="Noyau", snippetType="autosnippet"},
+    fmta(
+      "<>\\Ker(<>)",
+      {f( function(_, snip) return snip.captures[1] end ), i(1)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
 
   s(
     {trig="leq", dscr="Lower or equal", snippetType="autosnippet"},
@@ -648,6 +735,14 @@ return {
   ),
 
   s(
+    {trig="sminus", dscr="setminus", snippetType="autosnippet"},
+    fmta(
+      "\\setminus ",
+      {}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
     {trig="subset", dscr="subset", snippetType="autosnippet"},
     fmta(
       "\\subset ",
@@ -681,6 +776,15 @@ return {
     {condition = tex_utils.in_mathzone}
   ),
 
+  s(
+    {trig="([^%a])Vect", wordTrig=false, regTrig=true, snippetType="autosnippet"
+    , dscr="Espace engendré"},
+    fmta(
+      "<>\\Vect(<>)",
+      {f( function(_, snip) return snip.captures[1] end ), i(1)}
+    ),
+    {condition=tex_utils.in_mathzone}
+  ),
   s(
     {trig="([^%a])vec", wordTrig=false, regTrig=true, snippetType="autosnippet"
     , dscr="Vector line over variable"},
@@ -741,7 +845,7 @@ return {
     {condition = tex_utils.in_mathzone}
   ),
   s(
-    {trig="pcos", dscr="cosinus exponsant", snippetType="autosnippet"},
+    {trig="ncos", dscr="cosinus exponsant", snippetType="autosnippet"},
     fmta(
       "\\cos^{<>}(<>)",
       {i(1),i(2)}
@@ -778,7 +882,7 @@ return {
   ),
 
   s(
-    {trig="psin", dscr="sin exposant", snippetType="autosnippet"},
+    {trig="nsin", dscr="sin exposant", snippetType="autosnippet"},
     fmta(
       "\\sin^{<>}(<>)",
       {i(1),i(2)}
@@ -1046,6 +1150,16 @@ return {
   ),
   
   s(
+    {trig="([^%a])Phi", regTrig=true, wordTrig=false, dscr="Phi", snippetType="autosnippet"},
+    fmta(
+      "<>\\Phi",
+      {
+        f( function(_, snip) return snip.captures[1] end ),
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
     {trig="([^%a])phi", regTrig=true, wordTrig=false, dscr="phi", snippetType="autosnippet"},
     fmta(
       "<>\\phi",
@@ -1059,6 +1173,26 @@ return {
     {trig="([^%a])vphi", regTrig=true, wordTrig=false, dscr="varphi", snippetType="autosnippet"},
     fmta(
       "<>\\varphi",
+      {
+        f( function(_, snip) return snip.captures[1] end ),
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
+    {trig="([^%a])Psi", regTrig=true, wordTrig=false, dscr="Psi", snippetType="autosnippet"},
+    fmta(
+      "<>\\Psi",
+      {
+        f( function(_, snip) return snip.captures[1] end ),
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
+    {trig="([^%a])psi", regTrig=true, wordTrig=false, dscr="psi", snippetType="autosnippet"},
+    fmta(
+      "<>\\psi",
       {
         f( function(_, snip) return snip.captures[1] end ),
       }
