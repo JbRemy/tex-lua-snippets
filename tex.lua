@@ -81,6 +81,20 @@ return {
   ),
 
   --------------------------------------------------------------
+  -- Formating
+  --
+  
+  s({trig = "mskip", dscr = "Expands into underline"},
+  fmta([[\medskip
+
+
+  ]],
+    {
+    }
+  )
+  ),
+  
+  --------------------------------------------------------------
   -- Sections
   --
   s(
@@ -175,7 +189,7 @@ return {
     {trig="shlist", dscr="Expands into an subhlist"},
     fmta(
       [[
-        \begin{hlist}[label=\alpha{hlistii}]<>
+        \begin{hlist}[label=\alpha{hlistii})]<>
           \setcounter{hlistii}{0}
           \hitem <>
         \end{hlist}
@@ -321,7 +335,7 @@ return {
   ),
 
   s({trig = "brks", snippetType="autosnippet", dscr = "expands into a brakets"},
-  fmta("\\[<>\\]",
+  fmta("[<>]",
     {
       d(1, get_visual),
     }
@@ -329,7 +343,7 @@ return {
   ),
 
   s({trig = "lbrks", snippetType="autosnippet", dscr = "expands into a brakets"},
-  fmta("\\left\\[<>\\right\\]",
+  fmta("\\left[<>\\right]",
     {
       d(1, get_visual),
     }
@@ -370,7 +384,7 @@ return {
   s(
     {trig="mcal", dscr="mathcal", snippetType="autosnippet"},
     fmta(
-      "\\mathcal{ <> } ",
+      "\\mathcal{<>}",
       {i(1)}
     ),
     {condition = tex_utils.in_mathzone}
@@ -416,6 +430,19 @@ return {
     ),
     {condition = tex_utils.in_mathzone}
   ),
+  
+  s(
+    {trig="([^%a])bar", regTrig=true, wordTrig=false, dscr="Bar above variable", snippetType="autosnippet"},
+    fmta(
+      "<>\\overline{<>}",
+      {
+        f( function(_, snip) return snip.captures[1] end ),
+        i(1)
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  
   s(
     {trig="([^%a])binom", regTrig=true, wordTrig=false, dscr="Coeff binomiaux", snippetType="autosnippet"},
     fmta(
@@ -501,12 +528,30 @@ return {
     ),
     {condition = tex_utils.in_mathzone}
   ),
+  
+  s(
+    {trig="dim", dscr="dimension", snippetType="autosnippet"},
+    fmta(
+      "\\dim\\left(<>\\right) ",
+      {i(1)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
 
   s(
     {trig="exi", dscr="exists", snippetType="autosnippet"},
     fmta(
       "\\exists ",
       {}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+
+  s(
+    {trig="dff", dscr="dfractions", snippetType="autosnippet"},
+    fmta(
+      "\\dfrac{<>}{<>}",
+      {i(1),i(2)}
     ),
     {condition = tex_utils.in_mathzone}
   ),
@@ -590,8 +635,8 @@ return {
   s(
     {trig="Int", dscr="integrale", snippetType="autosnippet"},
     fmta(
-      "\\int_{<>}^{<>}",
-      {i(1),i(2)}
+      "\\int_{<>}^{<>} <> \\dt <>",
+      {i(1),i(2),i(3),i(4)}
     ),
     {condition = tex_utils.in_mathzone}
   ),
@@ -607,7 +652,7 @@ return {
   s(
     {trig="([^%a])ocint", regTrig=true, wordTrig=false, dscr="Intervalle ouvert fermé", snippetType="autosnippet"},
     fmta(
-      "<>\\left]<>;<>\\right]",
+      "<>\\left]<>,<>\\right]",
       {f( function(_, snip) return snip.captures[1] end ), i(1),i(2)}
     ),
     {condition = tex_utils.in_mathzone}
@@ -615,7 +660,7 @@ return {
   s(
     {trig="([^%a])coint", regTrig=true, wordTrig=false, dscr="Intervalle fermé ouvert", snippetType="autosnippet"},
     fmta(
-      "<>\\left[<>;<>\\right[",
+      "<>\\left[<>,<>\\right[",
       {f( function(_, snip) return snip.captures[1] end ), i(1),i(2)}
     ),
     {condition = tex_utils.in_mathzone}
@@ -623,7 +668,7 @@ return {
   s(
     {trig="([^%a])ooint", regTrig=true, wordTrig=false, dscr="Intervalle ouvert", snippetType="autosnippet"},
     fmta(
-      "<>\\left]<>;<>\\right[",
+      "<>\\left]<>,<>\\right[",
       {f( function(_, snip) return snip.captures[1] end ), i(1),i(2)}
     ),
     {condition = tex_utils.in_mathzone}
@@ -631,7 +676,7 @@ return {
   s(
     {trig="([^%a])ccint", regTrig=true, wordTrig=false, dscr="Intervalle fermé", snippetType="autosnippet"},
     fmta(
-      "<>\\left[<>;<>\\right]",
+      "<>\\left[<>,<>\\right]",
       {f( function(_, snip) return snip.captures[1] end ), i(1),i(2)}
     ),
     {condition = tex_utils.in_mathzone}
@@ -715,6 +760,24 @@ return {
     {condition = tex_utils.in_mathzone}
   ),
 
+  s(
+    {trig="Prob", dscr="Produit de termes", snippetType="autosnippet"},
+    fmta(
+      "\\Prob(<>)",
+      {i(1)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  
+  s(
+    {trig="Proc", dscr="Produit de termes", snippetType="autosnippet"},
+    fmta(
+      "\\Prob(<>|<>)",
+      {i(1),i(2)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  
   s(
     {trig="Prod", dscr="Produit de termes", snippetType="autosnippet"},
     fmta(
@@ -858,6 +921,15 @@ return {
     fmta(
       "\\exp(<>)",
       {i(1)}
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  
+  s(
+    {trig="dprod", dscr="produit scalaire", snippetType="autosnippet"},
+    fmta(
+      "\\scalaire{<>}{<>}",
+      {i(1), i(2)}
     ),
     {condition = tex_utils.in_mathzone}
   ),
@@ -1052,7 +1124,7 @@ return {
 
 
   s(
-    {trig="([^%a])alp", regTrig=true, wordTrig=false, dscr="alpha", snippetType="autosnippet"},
+    {trig="([^%a])alpha", regTrig=true, wordTrig=false, dscr="alpha", snippetType="autosnippet"},
     fmta(
       "<>\\alpha",
       {
@@ -1063,7 +1135,7 @@ return {
   ),
 
   s(
-    {trig="([^%a])bet", regTrig=true, wordTrig=false, dscr="beta", snippetType="autosnippet"},
+    {trig="([^%a])beta", regTrig=true, wordTrig=false, dscr="beta", snippetType="autosnippet"},
     fmta(
       "<>\\beta",
       {
@@ -1148,6 +1220,16 @@ return {
     ),
     {condition = tex_utils.in_mathzone}
   ),
+  s(
+    {trig="([^%a])mu", regTrig=true, wordTrig=false, dscr="mu", snippetType="autosnippet"},
+    fmta(
+      "<>\\mu",
+      {
+        f( function(_, snip) return snip.captures[1] end ),
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
   
   s(
     {trig="([^%a])Phi", regTrig=true, wordTrig=false, dscr="Phi", snippetType="autosnippet"},
@@ -1210,6 +1292,60 @@ return {
     ),
     {condition = tex_utils.in_mathzone}
   ),
+  
+  s(
+    {trig="([^%a])omega", regTrig=true, wordTrig=false, dscr="omega", snippetType="autosnippet"},
+    fmta(
+      "<>\\omega",
+      {
+        f( function(_, snip) return snip.captures[1] end ),
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  
+  s(
+    {trig="([^%a])Omega", regTrig=true, wordTrig=false, dscr="Omega", snippetType="autosnippet"},
+    fmta(
+      "<>\\Omega",
+      {
+        f( function(_, snip) return snip.captures[1] end ),
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  
+  s(
+    {trig="([^%a])sigma", regTrig=true, wordTrig=false, dscr="sigma", snippetType="autosnippet"},
+    fmta(
+      "<>\\sigma",
+      {
+        f( function(_, snip) return snip.captures[1] end ),
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  
+  s(
+    {trig="([^%a])zeta", regTrig=true, wordTrig=false, dscr="zeta", snippetType="autosnippet"},
+    fmta(
+      "<>\\zeta",
+      {
+        f( function(_, snip) return snip.captures[1] end ),
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
+  s(
+    {trig="([^%a])Zeta", regTrig=true, wordTrig=false, dscr="Zeta", snippetType="autosnippet"},
+    fmta(
+      "<>\\Zeta",
+      {
+        f( function(_, snip) return snip.captures[1] end ),
+      }
+    ),
+    {condition = tex_utils.in_mathzone}
+  ),
 
   -------------------------------------------------------------------------------
   -- Mathfonts
@@ -1264,6 +1400,20 @@ return {
       {i(1, "label"),i(2, "name"),i(3), i(4)}
     ),
     { condition = tex_utils.in_tikz }
-  )
+  ),
+  
+  -------------------------------------------------------------------------------
+  -- Python
+  --
+  s(
+    {trig="lpython",dscr="expands into pythoninline", snippetType="autosnippet"},
+    fmta(
+      "<>\\pythoninline{<>}",
+      {
+        f( function(_, snip) return snip.captures[1] end ),
+        i(1)
+      }
+    )
+  ),
 }
 
